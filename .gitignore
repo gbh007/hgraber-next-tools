@@ -1,0 +1,6 @@
+.hidden
+_build
+.env
+config.yaml
+*.db
+*.sqlite
