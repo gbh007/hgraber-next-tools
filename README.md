@@ -6,5 +6,5 @@
 
 ```bash
 go build -o _build/upload_archive cmd/upload_archive
-_build/upload_archive --archive
+_build/upload_archive --archive <path>
 ```
