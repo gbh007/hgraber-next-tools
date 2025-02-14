@@ -1,0 +1,5 @@
+master_api:
+  addr: http://localhost:8080
+  token: local-next
+application:
+  debug: false
