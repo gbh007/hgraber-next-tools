@@ -12,7 +12,7 @@ import (
 )
 
 func (c *Client) DeduplicateArchive(ctx context.Context, body io.Reader) ([]entities.DeduplicateArchiveResult, error) {
-	res, err := c.rawClient.APISystemDeduplicateArchivePost(ctx, serverapi.APISystemDeduplicateArchivePostReq{
+	res, err := c.rawClient.APIDeduplicateArchivePost(ctx, serverapi.APIDeduplicateArchivePostReq{
 		Data: body,
 	})
 	if err != nil {
@@ -20,8 +20,8 @@ func (c *Client) DeduplicateArchive(ctx context.Context, body io.Reader) ([]enti
 	}
 
 	switch typedRes := res.(type) {
-	case *serverapi.APISystemDeduplicateArchivePostOKApplicationJSON:
-		return pkg.Map(*typedRes, func(raw serverapi.APISystemDeduplicateArchivePostOKItem) entities.DeduplicateArchiveResult {
+	case *serverapi.APIDeduplicateArchivePostOKApplicationJSON:
+		return pkg.Map(*typedRes, func(raw serverapi.APIDeduplicateArchivePostOKItem) entities.DeduplicateArchiveResult {
 			var u *url.URL
 
 			if raw.BookOriginURL.IsSet() {
@@ -36,16 +36,16 @@ func (c *Client) DeduplicateArchive(ctx context.Context, body io.Reader) ([]enti
 			}
 		}), nil
 
-	case *serverapi.APISystemDeduplicateArchivePostBadRequest:
+	case *serverapi.APIDeduplicateArchivePostBadRequest:
 		return nil, fmt.Errorf("%w: %s", entities.MasterAPIBadRequest, typedRes.Details.Value)
 
-	case *serverapi.APISystemDeduplicateArchivePostUnauthorized:
+	case *serverapi.APIDeduplicateArchivePostUnauthorized:
 		return nil, fmt.Errorf("%w: %s", entities.MasterAPIUnauthorized, typedRes.Details.Value)
 
-	case *serverapi.APISystemDeduplicateArchivePostForbidden:
+	case *serverapi.APIDeduplicateArchivePostForbidden:
 		return nil, fmt.Errorf("%w: %s", entities.MasterAPIForbidden, typedRes.Details.Value)
 
-	case *serverapi.APISystemDeduplicateArchivePostInternalServerError:
+	case *serverapi.APIDeduplicateArchivePostInternalServerError:
 		return nil, fmt.Errorf("%w: %s", entities.MasterAPIInternalError, typedRes.Details.Value)
 
 	default:
